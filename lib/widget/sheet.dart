@@ -72,6 +72,8 @@ class TimePickerSheet extends TimePicker {
 
   final ButtonStyle saveButtonStyle;
 
+  final double itemHeight;
+
   const TimePickerSheet({
     Key? key,
     required this.sheetTitle,
@@ -86,6 +88,7 @@ class TimePickerSheet extends TimePicker {
     this.minMinute = 0,
     this.maxMinute = 60,
     this.twoDigit = true,
+    this.itemHeight = 40,
     this.sheetCloseIcon = const Icon(Icons.close),
     this.saveButtonStyle = const ButtonStyle(),
     this.sheetTitleStyle = const TextStyle(
@@ -144,7 +147,7 @@ class TimePickerSheet extends TimePicker {
                     const TimePickerIndicator(),
                     TimePickerBody(
                       initial: initialTime,
-                      itemHeight: 40,
+                      itemHeight: itemHeight,
 
                       /// normalize the interval to be have positive
                       /// value if somehow the interval is negative.

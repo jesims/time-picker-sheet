@@ -6,9 +6,9 @@ class TimePickerIndicator extends StatelessWidget {
   final double itemHeight;
 
   const TimePickerIndicator({
+    required this.itemHeight,
     Key? key,
     this.color = Colors.black12,
-    this.itemHeight = 40,
   }) : super(key: key);
 
   @override

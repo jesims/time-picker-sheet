@@ -31,12 +31,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime dateTimeSelected = DateTime.now();
+  Duration selected = Duration.zero;
 
   void _openTimePickerSheet(BuildContext context) async {
-    final result = await TimePicker.show<DateTime?>(
+    final result = await TimePicker.show<Duration?>(
       context: context,
-      sheet: TimePickerSheet(
+      sheet: const TimePickerSheet(
         sheetTitle: 'Select meeting schedule',
         minuteTitle: 'Minute',
         hourTitle: 'Hour',
@@ -46,13 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (result != null) {
       setState(() {
-        dateTimeSelected = result;
+        selected = result;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var hour = selected.inMinutes ~/ 60;
+    var minute = selected.inMinutes % 60;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -63,9 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => _openTimePickerSheet(context),
-              child: Text('show time picker sheet'),
+              child: const Text('show time picker sheet'),
             ),
-            Text('Time ${dateTimeSelected.hour}:${dateTimeSelected.minute}'),
+            Text('Time $hour:$minute'),
           ],
         ),
       ),

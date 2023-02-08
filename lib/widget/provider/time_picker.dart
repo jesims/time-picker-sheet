@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 /// you have state and need to consume in the initState you can't use this,
 /// you need to pass the state via constructor instead.
 class TimePickerProvider extends InheritedWidget {
-  final IconData sheetCloseIcon;
-
-  final Color sheetCloseIconColor;
+  final Icon sheetCloseIcon;
 
   final String sheetTitle;
 
@@ -27,7 +25,7 @@ class TimePickerProvider extends InheritedWidget {
 
   final TextStyle wheelNumberSelectedStyle;
 
-  final Color saveButtonColor;
+  final ButtonStyle saveButtonStyle;
 
   final String saveButtonText;
 
@@ -36,7 +34,6 @@ class TimePickerProvider extends InheritedWidget {
   const TimePickerProvider({
     Key? key,
     required this.sheetCloseIcon,
-    required this.sheetCloseIconColor,
     required this.sheetTitle,
     required this.sheetTitleStyle,
     required this.minuteTitle,
@@ -46,7 +43,7 @@ class TimePickerProvider extends InheritedWidget {
     required this.wheelNumberItemStyle,
     required this.wheelNumberSelectedStyle,
     required this.saveButtonText,
-    required this.saveButtonColor,
+    required this.saveButtonStyle,
     required this.twoDigit,
     required Widget child,
   }) : super(key: key, child: child);

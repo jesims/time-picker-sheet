@@ -9,11 +9,11 @@ import 'package:time_picker_sheet/widget/time_picker.dart';
 /// the sheet only care about the hour and minute values, the other will be
 /// ignored.
 class TimePickerSheet extends TimePicker {
-  /// you can set initial date time from screen, so if time picker sheet
-  /// opened will be directly selected the time based on initialDateTime.
-  /// but this is optional, if initialDateTime not set the selected time
-  /// will be 0 because using _defaultDateTime.
-  final DateTime? initialDateTime;
+  /// you can set initial time from screen, so if time picker sheet
+  /// opened will be directly selected the time based on [initialTime].
+  /// but this is optional, if [initialTime] not set the selected time
+  /// will be 0.
+  final Duration initialTime;
 
   /// will be used as a minute interval, the default value is 15 but you can
   /// adjust based on your needs from screen. if the value is 15 then the
@@ -22,14 +22,14 @@ class TimePickerSheet extends TimePicker {
 
   /// will be used as a hour interval, the default value is 1 but you can
   /// adjust based on your needs from screen. if the value is 1 then the
-  /// options will be start from 0 to 23.
+  /// options will be start from 0 and default to 24.
   final int hourInterval;
 
-  /// max hour should be >= 0 && <= 24. outside the range will
+  /// max hour should be >= 0. outside the range will
   /// trigger an error on the screen.
   final int maxHour;
 
-  /// min hour should be >= 0 && <= 24. outside the range will
+  /// min hour should be >= 0. outside the range will
   /// trigger an error on the screen.
   final int minHour;
 
@@ -48,9 +48,7 @@ class TimePickerSheet extends TimePicker {
   /// don't need to reformat or mapping anything on the screen.
   final bool twoDigit;
 
-  final IconData sheetCloseIcon;
-
-  final Color sheetCloseIconColor;
+  final Icon sheetCloseIcon;
 
   /// title on the top of the sheet.
   final String sheetTitle;
@@ -72,27 +70,18 @@ class TimePickerSheet extends TimePicker {
 
   final String saveButtonText;
 
-  final Color saveButtonColor;
+  final ButtonStyle saveButtonStyle;
 
-  late final _now = DateTime.now();
+  final double itemHeight;
+  final double? sheetHeight;
 
-  /// if initialDateTime is null, then default time will be used.
-  late final _defaultDateTime = DateTime(
-    _now.year,
-    _now.month,
-    _now.day,
-    0,
-    0,
-    0,
-  );
-
-  TimePickerSheet({
+  const TimePickerSheet({
     Key? key,
     required this.sheetTitle,
     required this.minuteTitle,
     required this.hourTitle,
     required this.saveButtonText,
-    this.initialDateTime,
+    this.initialTime = Duration.zero,
     this.minuteInterval = 15,
     this.hourInterval = 1,
     this.minHour = 0,
@@ -100,21 +89,20 @@ class TimePickerSheet extends TimePicker {
     this.minMinute = 0,
     this.maxMinute = 60,
     this.twoDigit = true,
-    this.sheetCloseIcon = Icons.close,
-    this.sheetCloseIconColor = Colors.redAccent,
-    this.saveButtonColor = Colors.redAccent,
+    this.itemHeight = 40,
+    this.sheetCloseIcon = const Icon(Icons.close),
+    this.saveButtonStyle = const ButtonStyle(),
+    this.sheetHeight,
     this.sheetTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
     ),
     this.hourTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
     this.minuteTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
     this.wheelNumberItemStyle = const TextStyle(
@@ -122,22 +110,19 @@ class TimePickerSheet extends TimePicker {
     ),
     this.wheelNumberSelectedStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
-  })  : assert(minHour >= 0 && minHour <= 24),
-        assert(maxHour >= 0 && maxHour <= 24),
+  })  : assert(minHour >= 0),
+        assert(maxHour >= 0),
         assert(minMinute >= 0 && maxMinute <= 60),
         assert(maxMinute >= 0 && maxMinute <= 60),
+        assert(minMinute <= maxMinute),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final halfOfScreen = MediaQuery.of(context).size.height / 2;
-
     return TimePickerProvider(
       sheetCloseIcon: sheetCloseIcon,
-      sheetCloseIconColor: sheetCloseIconColor,
       sheetTitle: sheetTitle,
       sheetTitleStyle: sheetTitleStyle,
       minuteTitle: minuteTitle,
@@ -147,22 +132,24 @@ class TimePickerSheet extends TimePicker {
       wheelNumberItemStyle: wheelNumberItemStyle,
       wheelNumberSelectedStyle: wheelNumberSelectedStyle,
       saveButtonText: saveButtonText,
-      saveButtonColor: saveButtonColor,
+      saveButtonStyle: saveButtonStyle,
       twoDigit: twoDigit,
       child: SizedBox(
-        height: halfOfScreen,
+        height: sheetHeight ?? (16 * 3) + 8 + 44 + (itemHeight * 3) + 32 + 48,
         child: SafeArea(
           child: Column(
             children: [
               const SheetHeader(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Expanded(
                 child: Stack(
                   children: [
-                    const TimePickerIndicator(),
+                    TimePickerIndicator(
+                      itemHeight: itemHeight,
+                    ),
                     TimePickerBody(
-                      dateTime: initialDateTime ?? _defaultDateTime,
-                      itemHeight: 40,
+                      initial: initialTime,
+                      itemHeight: itemHeight,
 
                       /// normalize the interval to be have positive
                       /// value if somehow the interval is negative.

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:time_picker_sheet/widget/composition/wheel.dart';
 import 'package:time_picker_sheet/widget/provider/time_picker.dart';
@@ -8,7 +10,7 @@ import 'package:time_picker_sheet/widget/provider/time_picker.dart';
 /// because the default value for interval minutes is 15. you can adjust the
 /// value to align with your needs from the screen directly.
 class TimePickerBody extends StatefulWidget {
-  final DateTime dateTime;
+  final Duration initial;
 
   final double itemHeight;
 
@@ -28,7 +30,7 @@ class TimePickerBody extends StatefulWidget {
 
   const TimePickerBody({
     Key? key,
-    required this.dateTime,
+    this.initial = Duration.zero,
     required this.itemHeight,
     required this.visibleItems,
     required this.minHour,
@@ -55,15 +57,18 @@ class _TimePickerBodyState extends State<TimePickerBody> {
   @override
   void initState() {
     super.initState();
-    _initializeDateTime();
+    _initializePickerValues();
   }
 
-  void _initializeDateTime() {
+  void _initializePickerValues() {
     final hours = _getHours();
+
+    var currentHours = widget.initial.inMinutes ~/ 60;
+    var currentMinutes = widget.initial.inMinutes % 60;
 
     /// make sure at least there are 3 options on the list.
     assert(hours.length >= 3);
-    var hourIndex = hours.indexOf(widget.dateTime.hour);
+    var hourIndex = hours.indexOf(currentHours);
     if (hourIndex == -1) {
       /// IF the hour less than min value, it will force to select the smallest
       /// value on the list.
@@ -73,16 +78,16 @@ class _TimePickerBodyState extends State<TimePickerBody> {
       /// outside the interval ex: the options are 0, 15, 30, 45 then the
       /// hour set to 17, it will force to the nearest value below that is
       /// 15.
-      if (widget.dateTime.hour < widget.minHour) {
+      if (currentHours < widget.minHour) {
         hourIndex = 0;
-      } else if (widget.dateTime.hour > widget.maxHour) {
+      } else if (currentHours > widget.maxHour) {
         hourIndex = hours.length - 1;
       } else {
-        hourIndex = widget.dateTime.hour ~/ widget.hourInterval;
+        hourIndex = currentHours ~/ widget.hourInterval;
       }
       hourNotifier.value = hours[hourIndex];
     } else {
-      hourNotifier.value = widget.dateTime.hour;
+      hourNotifier.value = currentHours;
     }
     hourController = ScrollController(
       initialScrollOffset: (hourIndex) * widget.itemHeight,
@@ -92,7 +97,7 @@ class _TimePickerBodyState extends State<TimePickerBody> {
 
     /// make sure at least there are 3 options on the list.
     assert(minutes.length >= 3);
-    var minuteIndex = minutes.indexOf(widget.dateTime.minute);
+    var minuteIndex = minutes.indexOf(currentMinutes);
     if (minuteIndex == -1) {
       /// IF the minute is less than min value, it will force to select the
       /// smallest value on the list.
@@ -102,16 +107,16 @@ class _TimePickerBodyState extends State<TimePickerBody> {
       /// outside the interval ex: the options are 0, 15, 30, 45 then the
       /// minute set to 17, it will force to the nearest value below that is
       /// 15.
-      if (widget.dateTime.minute < widget.minMinute) {
+      if (currentMinutes < widget.minMinute) {
         minuteIndex = 0;
-      } else if (widget.dateTime.minute > widget.maxMinute) {
+      } else if (currentMinutes > widget.maxMinute) {
         minuteIndex = minutes.length - 1;
       } else {
-        minuteIndex = widget.dateTime.minute ~/ widget.minuteInterval;
+        minuteIndex = currentMinutes ~/ widget.minuteInterval;
       }
       minuteNotifier.value = minutes[minuteIndex];
     } else {
-      minuteNotifier.value = widget.dateTime.minute;
+      minuteNotifier.value = currentMinutes;
     }
     minuteController = ScrollController(
       initialScrollOffset: (minuteIndex) * widget.itemHeight,
@@ -128,17 +133,10 @@ class _TimePickerBodyState extends State<TimePickerBody> {
   }
 
   void _onSaved(BuildContext context) {
-    final now = DateTime.now();
-    final date = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      hourNotifier.value,
-      minuteNotifier.value,
-      0,
-    );
-
-    Navigator.of(context).pop(date);
+    Navigator.of(context).pop(Duration(
+      hours: hourNotifier.value,
+      minutes: minuteNotifier.value,
+    ));
   }
 
   @override
@@ -215,12 +213,7 @@ class _TimePickerBodyState extends State<TimePickerBody> {
             width: double.infinity,
             child: ElevatedButton(
               child: Text(provider.saveButtonText),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                primary: provider.saveButtonColor,
-              ), // <-- Radius
+              style: provider.saveButtonStyle,
               onPressed: () => _onSaved(context),
             ),
           ),
@@ -231,7 +224,7 @@ class _TimePickerBodyState extends State<TimePickerBody> {
 
   /// filter hours based on interval, min & max values.
   List<int> _getHours() {
-    final maxOptions = 24 ~/ widget.hourInterval;
+    final maxOptions = max(24, widget.maxHour) ~/ widget.hourInterval;
     final optionHours = List<int>.empty(growable: true);
 
     /// iteration start from 0, it means the hour should be

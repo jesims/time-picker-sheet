@@ -19,7 +19,7 @@ TimePicker.show(
 If you wanna get the result from the time picker sheet then what you have to do is await the result. As you know if we wanna await the result
 we need to do it as an async process right? so please make sure to do so. The code must be like this
 ```dart
-final result = await TimePicker.show<DateTime?>(
+final result = await TimePicker.show<Duration?>(
     context: context,
     sheet: TimePickerSheet(
         sheetTitle: 'Set meeting schedule',
@@ -30,8 +30,8 @@ final result = await TimePicker.show<DateTime?>(
 );
 
 ```
-the result from the sheet is should be nullable `DateTime`, if user closed the sheet the result will be null, but if the user click on the save button
-then the result should be the selected time as a DateTime, so you can get the hour & the minute.
+the result from the sheet is should be nullable `Duration`, if user closed the sheet the result will be null, but if the user click on the save button
+then the result should be the selected time as a Duration, so you can get the hour & the minute.
 
 # Customize
 What you can customize?

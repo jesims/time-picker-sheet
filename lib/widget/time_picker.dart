@@ -7,19 +7,17 @@ abstract class TimePicker extends StatelessWidget {
     required BuildContext context,
     required TimePicker sheet,
     bool dismissible = true,
-    double roundedCorner = 8.0,
+    ShapeBorder? shape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    ),
   }) async {
     return await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       enableDrag: dismissible,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(roundedCorner),
-      ),
+      shape: shape,
       isDismissible: dismissible,
-      builder: (_) {
-        return sheet;
-      },
+      builder: (_) => sheet,
     );
   }
 }

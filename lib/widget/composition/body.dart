@@ -57,10 +57,10 @@ class _TimePickerBodyState extends State<TimePickerBody> {
   @override
   void initState() {
     super.initState();
-    _initializeDateTime();
+    _initializePickerValues();
   }
 
-  void _initializeDateTime() {
+  void _initializePickerValues() {
     final hours = _getHours();
 
     var currentHours = widget.initial.inMinutes ~/ 60;
@@ -133,17 +133,10 @@ class _TimePickerBodyState extends State<TimePickerBody> {
   }
 
   void _onSaved(BuildContext context) {
-    final now = DateTime.now();
-    final date = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      hourNotifier.value,
-      minuteNotifier.value,
-      0,
-    );
-
-    Navigator.of(context).pop(date);
+    Navigator.of(context).pop(Duration(
+      hours: hourNotifier.value,
+      minutes: minuteNotifier.value,
+    ));
   }
 
   @override

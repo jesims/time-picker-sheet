@@ -9,10 +9,10 @@ import 'package:time_picker_sheet/widget/time_picker.dart';
 /// the sheet only care about the hour and minute values, the other will be
 /// ignored.
 class TimePickerSheet extends TimePicker {
-  /// you can set initial date time from screen, so if time picker sheet
-  /// opened will be directly selected the time based on initialDateTime.
-  /// but this is optional, if initialDateTime not set the selected time
-  /// will be 0 because using _defaultDateTime.
+  /// you can set initial time from screen, so if time picker sheet
+  /// opened will be directly selected the time based on [initialTime].
+  /// but this is optional, if [initialTime] not set the selected time
+  /// will be 0.
   final Duration initialTime;
 
   /// will be used as a minute interval, the default value is 15 but you can
@@ -22,7 +22,7 @@ class TimePickerSheet extends TimePicker {
 
   /// will be used as a hour interval, the default value is 1 but you can
   /// adjust based on your needs from screen. if the value is 1 then the
-  /// options will be start from 0 to 23.
+  /// options will be start from 0 and default to 24.
   final int hourInterval;
 
   /// max hour should be >= 0. outside the range will

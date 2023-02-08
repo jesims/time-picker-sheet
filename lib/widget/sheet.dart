@@ -73,6 +73,7 @@ class TimePickerSheet extends TimePicker {
   final ButtonStyle saveButtonStyle;
 
   final double itemHeight;
+  final double? sheetHeight;
 
   const TimePickerSheet({
     Key? key,
@@ -91,6 +92,7 @@ class TimePickerSheet extends TimePicker {
     this.itemHeight = 40,
     this.sheetCloseIcon = const Icon(Icons.close),
     this.saveButtonStyle = const ButtonStyle(),
+    this.sheetHeight,
     this.sheetTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
@@ -119,8 +121,6 @@ class TimePickerSheet extends TimePicker {
 
   @override
   Widget build(BuildContext context) {
-    final halfOfScreen = MediaQuery.of(context).size.height / 2;
-
     return TimePickerProvider(
       sheetCloseIcon: sheetCloseIcon,
       sheetTitle: sheetTitle,
@@ -135,7 +135,7 @@ class TimePickerSheet extends TimePicker {
       saveButtonStyle: saveButtonStyle,
       twoDigit: twoDigit,
       child: SizedBox(
-        height: halfOfScreen,
+        height: sheetHeight ?? (16 * 3) + 8 + 44 + (itemHeight * 3) + 32 + 48,
         child: SafeArea(
           child: Column(
             children: [

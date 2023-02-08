@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _openTimePickerSheet(BuildContext context) async {
     final result = await TimePicker.show<DateTime?>(
       context: context,
-      sheet: TimePickerSheet(
+      sheet: const TimePickerSheet(
         sheetTitle: 'Select meeting schedule',
         minuteTitle: 'Minute',
         hourTitle: 'Hour',
@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => _openTimePickerSheet(context),
-              child: Text('show time picker sheet'),
+              child: const Text('show time picker sheet'),
             ),
             Text('Time ${dateTimeSelected.hour}:${dateTimeSelected.minute}'),
           ],

@@ -1,3 +1,4 @@
+import 'package:clickable_list_wheel_view/clickable_list_wheel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:time_picker_sheet/widget/behaviour/snap_scroll.dart';
 import 'package:time_picker_sheet/widget/provider/time_picker.dart';
@@ -50,11 +51,17 @@ class ListNumber extends StatelessWidget {
           },
         );
 
-        return ListWheelScrollView.useDelegate(
-          itemExtent: itemHeight,
-          controller: controller,
-          physics: SnappScrollPhysic(itemHeight: itemHeight),
-          childDelegate: ListWheelChildLoopingListDelegate(children: widgets),
+        return ClickableListWheelScrollView(
+          scrollController: controller,
+          itemHeight: itemHeight,
+          itemCount: widgets.length,
+          scrollOnTap: true,
+          child: ListWheelScrollView.useDelegate(
+            itemExtent: itemHeight,
+            controller: controller,
+            physics: SnappScrollPhysic(itemHeight: itemHeight),
+            childDelegate: ListWheelChildLoopingListDelegate(children: widgets),
+          ),
         );
       },
     );

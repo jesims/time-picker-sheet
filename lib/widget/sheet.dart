@@ -135,7 +135,7 @@ class TimePickerSheet extends TimePicker {
       saveButtonStyle: saveButtonStyle,
       twoDigit: twoDigit,
       child: SizedBox(
-        height: sheetHeight ?? (16 * 3) + 8 + 44 + (itemHeight * 3) + 32 + 48,
+        height: sheetHeight ?? (16 * 3) + 8 + 8 + 44 + (itemHeight * 3) + 32 + 48,
         child: SafeArea(
           child: Column(
             children: [

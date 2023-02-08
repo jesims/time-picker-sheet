@@ -113,10 +113,11 @@ class TimePickerSheet extends TimePicker {
       color: Colors.redAccent,
       fontSize: 16,
     ),
-  })  : assert(minHour >= 0 && minHour <= 24),
-        assert(maxHour >= 0 && maxHour <= 24),
+  })  : assert(minHour >= 0),
+        assert(maxHour >= 0),
         assert(minMinute >= 0 && maxMinute <= 60),
         assert(maxMinute >= 0 && maxMinute <= 60),
+        assert(minMinute <= maxMinute),
         super(key: key);
 
   @override

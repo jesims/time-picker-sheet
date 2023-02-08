@@ -213,12 +213,7 @@ class _TimePickerBodyState extends State<TimePickerBody> {
             width: double.infinity,
             child: ElevatedButton(
               child: Text(provider.saveButtonText),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                backgroundColor: provider.saveButtonColor,
-              ), // <-- Radius
+              style: provider.saveButtonStyle,
               onPressed: () => _onSaved(context),
             ),
           ),

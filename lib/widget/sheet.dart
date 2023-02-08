@@ -48,9 +48,7 @@ class TimePickerSheet extends TimePicker {
   /// don't need to reformat or mapping anything on the screen.
   final bool twoDigit;
 
-  final IconData sheetCloseIcon;
-
-  final Color sheetCloseIconColor;
+  final Icon sheetCloseIcon;
 
   /// title on the top of the sheet.
   final String sheetTitle;
@@ -72,7 +70,7 @@ class TimePickerSheet extends TimePicker {
 
   final String saveButtonText;
 
-  final Color saveButtonColor;
+  final ButtonStyle saveButtonStyle;
 
   const TimePickerSheet({
     Key? key,
@@ -88,21 +86,18 @@ class TimePickerSheet extends TimePicker {
     this.minMinute = 0,
     this.maxMinute = 60,
     this.twoDigit = true,
-    this.sheetCloseIcon = Icons.close,
-    this.sheetCloseIconColor = Colors.redAccent,
-    this.saveButtonColor = Colors.redAccent,
+    this.sheetCloseIcon = const Icon(Icons.close),
+    this.saveButtonStyle = const ButtonStyle(),
     this.sheetTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
     ),
     this.hourTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
     this.minuteTitleStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
     this.wheelNumberItemStyle = const TextStyle(
@@ -110,7 +105,6 @@ class TimePickerSheet extends TimePicker {
     ),
     this.wheelNumberSelectedStyle = const TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.redAccent,
       fontSize: 16,
     ),
   })  : assert(minHour >= 0),
@@ -126,7 +120,6 @@ class TimePickerSheet extends TimePicker {
 
     return TimePickerProvider(
       sheetCloseIcon: sheetCloseIcon,
-      sheetCloseIconColor: sheetCloseIconColor,
       sheetTitle: sheetTitle,
       sheetTitleStyle: sheetTitleStyle,
       minuteTitle: minuteTitle,
@@ -136,7 +129,7 @@ class TimePickerSheet extends TimePicker {
       wheelNumberItemStyle: wheelNumberItemStyle,
       wheelNumberSelectedStyle: wheelNumberSelectedStyle,
       saveButtonText: saveButtonText,
-      saveButtonColor: saveButtonColor,
+      saveButtonStyle: saveButtonStyle,
       twoDigit: twoDigit,
       child: SizedBox(
         height: halfOfScreen,

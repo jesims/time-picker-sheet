@@ -13,7 +13,7 @@ class TimePickerSheet extends TimePicker {
   /// opened will be directly selected the time based on initialDateTime.
   /// but this is optional, if initialDateTime not set the selected time
   /// will be 0 because using _defaultDateTime.
-  final DateTime? initialDateTime;
+  final Duration initialTime;
 
   /// will be used as a minute interval, the default value is 15 but you can
   /// adjust based on your needs from screen. if the value is 15 then the
@@ -74,25 +74,13 @@ class TimePickerSheet extends TimePicker {
 
   final Color saveButtonColor;
 
-  late final _now = DateTime.now();
-
-  /// if initialDateTime is null, then default time will be used.
-  late final _defaultDateTime = DateTime(
-    _now.year,
-    _now.month,
-    _now.day,
-    0,
-    0,
-    0,
-  );
-
-  TimePickerSheet({
+  const TimePickerSheet({
     Key? key,
     required this.sheetTitle,
     required this.minuteTitle,
     required this.hourTitle,
     required this.saveButtonText,
-    this.initialDateTime,
+    this.initialTime = Duration.zero,
     this.minuteInterval = 15,
     this.hourInterval = 1,
     this.minHour = 0,
@@ -161,7 +149,7 @@ class TimePickerSheet extends TimePicker {
                   children: [
                     const TimePickerIndicator(),
                     TimePickerBody(
-                      dateTime: initialDateTime ?? _defaultDateTime,
+                      initial: initialTime,
                       itemHeight: 40,
 
                       /// normalize the interval to be have positive

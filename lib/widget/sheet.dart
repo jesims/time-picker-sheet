@@ -140,11 +140,13 @@ class TimePickerSheet extends TimePicker {
           child: Column(
             children: [
               const SheetHeader(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Expanded(
                 child: Stack(
                   children: [
-                    const TimePickerIndicator(),
+                    TimePickerIndicator(
+                      itemHeight: itemHeight,
+                    ),
                     TimePickerBody(
                       initial: initialTime,
                       itemHeight: itemHeight,

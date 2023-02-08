@@ -25,11 +25,11 @@ class TimePickerSheet extends TimePicker {
   /// options will be start from 0 to 23.
   final int hourInterval;
 
-  /// max hour should be >= 0 && <= 24. outside the range will
+  /// max hour should be >= 0. outside the range will
   /// trigger an error on the screen.
   final int maxHour;
 
-  /// min hour should be >= 0 && <= 24. outside the range will
+  /// min hour should be >= 0. outside the range will
   /// trigger an error on the screen.
   final int minHour;
 

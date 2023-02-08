@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:time_picker_sheet/widget/composition/wheel.dart';
 import 'package:time_picker_sheet/widget/provider/time_picker.dart';
@@ -234,7 +236,7 @@ class _TimePickerBodyState extends State<TimePickerBody> {
 
   /// filter hours based on interval, min & max values.
   List<int> _getHours() {
-    final maxOptions = 24 ~/ widget.hourInterval;
+    final maxOptions = max(24, widget.maxHour) ~/ widget.hourInterval;
     final optionHours = List<int>.empty(growable: true);
 
     /// iteration start from 0, it means the hour should be

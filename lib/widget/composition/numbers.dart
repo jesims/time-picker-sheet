@@ -56,6 +56,7 @@ class ListNumber extends StatelessWidget {
           itemHeight: itemHeight,
           itemCount: widgets.length,
           scrollOnTap: true,
+          loop: true,
           child: ListWheelScrollView.useDelegate(
             itemExtent: itemHeight,
             controller: controller,

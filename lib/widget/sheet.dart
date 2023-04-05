@@ -121,53 +121,55 @@ class TimePickerSheet extends TimePicker {
 
   @override
   Widget build(BuildContext context) {
-    return TimePickerProvider(
-      sheetCloseIcon: sheetCloseIcon,
-      sheetTitle: sheetTitle,
-      sheetTitleStyle: sheetTitleStyle,
-      minuteTitle: minuteTitle,
-      minuteTitleStyle: minuteTitleStyle,
-      hourTitle: hourTitle,
-      hourTitleStyle: hourTitleStyle,
-      wheelNumberItemStyle: wheelNumberItemStyle,
-      wheelNumberSelectedStyle: wheelNumberSelectedStyle,
-      saveButtonText: saveButtonText,
-      saveButtonStyle: saveButtonStyle,
-      twoDigit: twoDigit,
-      child: SizedBox(
-        height: sheetHeight ?? (16 * 3) + 8 + 8 + 44 + (itemHeight * 3) + 32 + 48,
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SheetHeader(),
-              const SizedBox(height: 8),
-              Expanded(
-                child: Stack(
-                  children: [
-                    TimePickerIndicator(
-                      itemHeight: itemHeight,
-                    ),
-                    TimePickerBody(
-                      initial: initialTime,
-                      itemHeight: itemHeight,
+    return SafeArea(
+      child: TimePickerProvider(
+        sheetCloseIcon: sheetCloseIcon,
+        sheetTitle: sheetTitle,
+        sheetTitleStyle: sheetTitleStyle,
+        minuteTitle: minuteTitle,
+        minuteTitleStyle: minuteTitleStyle,
+        hourTitle: hourTitle,
+        hourTitleStyle: hourTitleStyle,
+        wheelNumberItemStyle: wheelNumberItemStyle,
+        wheelNumberSelectedStyle: wheelNumberSelectedStyle,
+        saveButtonText: saveButtonText,
+        saveButtonStyle: saveButtonStyle,
+        twoDigit: twoDigit,
+        child: SizedBox(
+          height: sheetHeight ?? (16 * 3) + 8 + 8 + 44 + (itemHeight * 3) + 32 + 48,
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SheetHeader(),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      TimePickerIndicator(
+                        itemHeight: itemHeight,
+                      ),
+                      TimePickerBody(
+                        initial: initialTime,
+                        itemHeight: itemHeight,
 
-                      /// normalize the interval to be have positive
-                      /// value if somehow the interval is negative.
-                      minuteInterval: minuteInterval.abs(),
+                        /// normalize the interval to be have positive
+                        /// value if somehow the interval is negative.
+                        minuteInterval: minuteInterval.abs(),
 
-                      /// normalize the interval to be have positive
-                      /// value if somehow the interval is negative.
-                      hourInterval: hourInterval.abs(),
-                      maxHour: maxHour,
-                      minHour: minHour,
-                      maxMinute: maxMinute,
-                      minMinute: minMinute,
-                      visibleItems: 3,
-                    ),
-                  ],
+                        /// normalize the interval to be have positive
+                        /// value if somehow the interval is negative.
+                        hourInterval: hourInterval.abs(),
+                        maxHour: maxHour,
+                        minHour: minHour,
+                        maxMinute: maxMinute,
+                        minMinute: minMinute,
+                        visibleItems: 3,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
